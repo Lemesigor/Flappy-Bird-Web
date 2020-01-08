@@ -168,7 +168,29 @@ function Progress(){
 
     this.addScore(0)
 }
+function areOverlaid(elementA, elementB) {
+    const a = elementA.getBoundingClientRect()
+    const b = elementB.getBoundingClientRect()
 
+    const horizontal = a.left + a.width >= b.left
+        && b.left + b.width >= a.left
+    const vertical = a.top + a.height >= b.top
+        && b.top + b.height >= a.top
+    return horizontal && vertical
+}
+
+function colide(bird, barriers) {
+    let colide = false
+    barriers.pairs.forEach(barriersPair => {
+        if (!colide) {
+            const top = barriersPair.topBarrier.element
+            const bottom = barriersPair.bottomBarrier.element
+            colide = areOverlaid(bird.element, top)
+                || areOverlaid(bird.element, bottom)
+        }
+    })
+    return colide
+}
 function main(){
     let score = 0
 
@@ -189,6 +211,10 @@ function main(){
         const time = setInterval(() => {
             barriers.animation()
             bird.animation()
+
+            if(colide(bird,barriers)){
+                clearInterval(time)
+            }
         },20)
     }
 }
