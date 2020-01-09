@@ -1,4 +1,10 @@
-
+/**
+ * 
+ * ######## TODO ###########
+ *  -  End the game also when the bird colides agasint the top and bottom limits of the screen
+ *  -  When the bird colides, create a interface giving the user the option to try again
+ * 
+ */
 
 /**
  * 
@@ -122,6 +128,11 @@ function Barriers (displayHeight, displayWidth, distance, spaceBetween, addScore
     }
 }
 
+/**
+ * 
+ * @param {string} gameHeight 
+ * Constructor to create the bird object and control its animation
+ */
 function Bird (gameHeight){
     let flying = false
 
@@ -159,6 +170,9 @@ function Bird (gameHeight){
     this.setY(gameHeight /2)
 }
 
+/**
+ * Function to add points to the user score
+ */
 function Progress(){
     this.element = newElement('span', 'progress')
 
@@ -168,17 +182,14 @@ function Progress(){
 
     this.addScore(0)
 }
-function areOverlaid(elementA, elementB) {
-    const a = elementA.getBoundingClientRect()
-    const b = elementB.getBoundingClientRect()
 
-    const horizontal = a.left + a.width >= b.left
-        && b.left + b.width >= a.left
-    const vertical = a.top + a.height >= b.top
-        && b.top + b.height >= a.top
-    return horizontal && vertical
-}
-
+/**
+ * 
+ * @param  bird 
+ * @param  barriers
+ * 
+ * Function that tests in every "movement" of the bird if it colide against a barrier and end the game 
+ */
 function colide(bird, barriers) {
     let colide = false
     barriers.pairs.forEach(barriersPair => {
@@ -191,6 +202,27 @@ function colide(bird, barriers) {
     })
     return colide
 }
+
+/**
+ * 
+ * @param  elementA 
+ * @param  elementB
+ * Aux function to test the overlaid of the barriers in order to create the colide event 
+ */
+function areOverlaid(elementA, elementB) {
+    const a = elementA.getBoundingClientRect()
+    const b = elementB.getBoundingClientRect()
+
+    const horizontal = a.left + a.width >= b.left
+        && b.left + b.width >= a.left
+    const vertical = a.top + a.height >= b.top
+        && b.top + b.height >= a.top
+    return horizontal && vertical
+}
+
+
+
+
 function main(){
     let score = 0
 
@@ -218,6 +250,7 @@ function main(){
         },20)
     }
 }
+
 
 
 new main().start()
